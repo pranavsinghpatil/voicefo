@@ -17,7 +17,7 @@ else:
     client    = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
     LLM_MODEL = LOCAL_LLM_MODEL
 
-SYSTEM_PROMPT = """You are VoiceForge, a Safe Local Voice Agent for Developers.
+SYSTEM_PROMPT = """You are voicefo, a Safe Local Voice Agent for Developers.
 Analyze the user's voice command and return a structured execution plan.
 
 Respond ONLY with valid JSON — no markdown, no extra text — matching this exact schema:

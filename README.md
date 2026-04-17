@@ -1,4 +1,4 @@
-# VoiceForge - Local Developer Voice Agent
+# voicefo - Local Developer Voice Agent
 
 A voice-first AI agent that plans, validates, and safely executes local developer actions from spoken commands.
 
@@ -8,7 +8,7 @@ Mem0 AI/ML & Generative AI Developer Intern Assignment Submission
 
 ## What It Does
 
-VoiceForge converts a spoken command into a structured execution plan, asks you to review and edit it, then writes the output safely into a sandboxed `/output` directory.
+voicefo converts a spoken command into a structured execution plan, asks you to review and edit it, then writes the output safely into a sandboxed `/output` directory.
 
 ```
 Voice Command
@@ -143,7 +143,7 @@ LOCAL_LLM_MODEL=qwen3.5:latest
 ## Project Structure
 
 ```
-voiceforge/
+voicefo/
 ├── app.py                  # Streamlit UI and pipeline orchestration
 ├── utils/
 │   ├── stt.py              # Speech-to-Text (Groq or local faster-whisper)
