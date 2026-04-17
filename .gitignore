@@ -1,12 +1,30 @@
-.env
+# Bytecode
 __pycache__/
-*.pyc
-output/
-.venv
-venv/
+*.py[cod]
+*$py.class
 
-# Excluded project documents
-LAUNCH_GUIDE.md
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project Specific
+output/*
+!output/.keep
+
+# Assignment/Temp docs
 Mem0_ AI_ML & Generative AI Developer Intern Assignment.pdf
-*.txt
-!requirements.txt
+document_content.txt
+SUBMISSION_ARTICLE_DRAFT.txt
+PROJECT_FLOW.txt
+LAUNCH_GUIDE.md
+temp_audio*
+*.wav
+*.mp3
+*.m4a
