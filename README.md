@@ -4,12 +4,15 @@ A voice-first AI agent that plans, validates, and safely executes local develope
 
 **Mem0 AI/ML & Generative AI Developer Intern Assignment Submission**
 
+<img width="775" height="450" alt="Screenshot 2026-04-17 222747" src="https://github.com/user-attachments/assets/f6ce0cbe-572a-4f5b-ab77-2720270026c1" />
+
+
 ---
 
 ## Deliverables
 
-- **Demo Video:** [Link to Video](INSERT_YOUR_YOUTUBE_LINK_HERE)
-- **Technical Article:** [Link to Article](INSERT_YOUR_ARTICLE_LINK_HERE)
+- **Demo Video:** [Link to Video](https://youtu.be/lTxMUjATnuw)
+- **Technical Article:** [Link to Article](https://open.substack.com/pub/pranavenv/p/beyond-the-chatbot-orchestrating?r=37wmz5&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true)
 - **Source Code:** [github.com/pranavsinghpatil/voicefo](https://github.com/pranavsinghpatil/voicefo)
 
 ---
@@ -58,7 +61,7 @@ Artifact Viewer  -->  preview, download, file tree
 |---|---|
 | UI Framework | Streamlit |
 | STT | Groq API (whisper-large-v3-turbo) |
-| LLM | Groq API (llama-3.1-8b-instant) |
+| LLM | Ollama (llama3) |
 | Tool Layer | Python standard libraries (os, pathlib) |
 | Safety | Path sanitization + HITL validation |
 
@@ -74,7 +77,7 @@ Artifact Viewer  -->  preview, download, file tree
    ```
 
 2. **Configure Environment**:
-   Copy `.env.sample` to `.env` and add your Groq API key:
+   Copy `.env.sample` to `.env` and add your Groq API key (If using Cloud APIs):
    ```env
    GROQ_API_KEY=your-api-key-here
    USE_GROQ_API=true
