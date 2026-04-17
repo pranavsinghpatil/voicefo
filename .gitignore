@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+output/
+.venv
+venv/
+
+# Excluded project documents
+LAUNCH_GUIDE.md
+Mem0_ AI_ML & Generative AI Developer Intern Assignment.pdf
+*.txt
+!requirements.txt
