@@ -2,13 +2,21 @@
 
 A voice-first AI agent that plans, validates, and safely executes local developer actions from spoken commands.
 
-Mem0 AI/ML & Generative AI Developer Intern Assignment Submission
+**Mem0 AI/ML & Generative AI Developer Intern Assignment Submission**
+
+---
+
+## Deliverables
+
+- **Demo Video:** [Link to Video](INSERT_YOUR_YOUTUBE_LINK_HERE)
+- **Technical Article:** [Link to Article](INSERT_YOUR_ARTICLE_LINK_HERE)
+- **Source Code:** [github.com/pranavsinghpatil/voicefo](https://github.com/pranavsinghpatil/voicefo)
 
 ---
 
 ## What It Does
 
-voicefo converts a spoken command into a structured execution plan, asks you to review and edit it, then writes the output safely into a sandboxed `/output` directory.
+voicefo converts a spoken command into a structured execution plan, asks the user to review and edit it, then writes the output safely into a sandboxed `/output` directory.
 
 ```
 Voice Command
@@ -34,31 +42,13 @@ Artifact Viewer  -->  preview, download, file tree
 
 ---
 
-## Supported Intents
-
-| Intent | Example Command |
-|---|---|
-| Write Code | "Create hello.py that prints Hello World" |
-| Create File | "Make a config.json with database settings" |
-| Create Folder | "Create a folder called tests" |
-| Append Code | "Append a retry decorator to hello.py" |
-| Summarize | "Summarize: The industrial revolution changed everything" |
-| General Chat | "What is the difference between a list and a tuple?" |
-| Compound Command | "Create config.py with settings, and main.py that imports it" |
-
----
-
 ## Key Features
 
-- Compound Commands: one voice command triggers multiple file operations
-- Human-in-the-Loop: no file is ever written without explicit user approval
-- Editable Plan: every step (filename, action, code) is editable before execution
-- Ambiguity Handling: vague commands trigger a clarification loop, not silent failure
-- Confidence + Reasoning: LLM explains why it chose each plan with a confidence score
-- Latency Metrics: STT, LLM, and execution times shown in the UI
-- Session Memory: remembers context across commands within a session
-- Artifact Viewer: syntax-highlighted preview and download button per generated file
-- Safe Sandbox: all file writes locked to `/output/` via `os.path.basename` enforcement
+- **Compound Commands**: Trigger multiple file operations with a single voice command.
+- **Human-in-the-Loop**: No file is ever written without explicit user approval via an editable review stage.
+- **Ambiguity Handling**: Proactively identifies vague commands and asks clarifying questions.
+- **Transparency**: Highlighting confidence scores and reasoning bullets for every decision.
+- **Safety**: Strict path-traversal protection and sandboxed execution in `/output`.
 
 ---
 
@@ -67,76 +57,34 @@ Artifact Viewer  -->  preview, download, file tree
 | Layer | Technology |
 |---|---|
 | UI Framework | Streamlit |
-| STT (Fast, default) | Groq API - whisper-large-v3-turbo |
-| STT (Local, opt-in) | faster-whisper - base model on CPU |
-| LLM (Fast, default) | Groq API - llama-3.1-8b-instant |
-| LLM (Local, opt-in) | Ollama - configurable model (qwen3.5, llama3) |
-| Tool Executor | Python stdlib (os, pathlib) |
-| Memory | Streamlit session_state |
-| Safety | os.path.basename + LLM injection guard |
+| STT | Groq API (whisper-large-v3-turbo) |
+| LLM | Groq API (llama-3.1-8b-instant) |
+| Tool Layer | Python standard libraries (os, pathlib) |
+| Safety | Path sanitization + HITL validation |
 
 ---
 
-## Setup Instructions
+## Setup & Configuration
 
-### Prerequisites
-- Python 3.9+
-- A Groq API key (free at https://console.groq.com)
-- Optional for local LLM: Ollama installed (https://ollama.com)
+1. **Clone and Install**:
+   ```bash
+   git clone https://github.com/pranavsinghpatil/voicefo.git
+   cd voicefo
+   pip install -r requirements.txt
+   ```
 
-### Install
-```bash
-git clone https://github.com/pranavsinghpatil/voicefo.git
-cd voicefo
-pip install -r requirements.txt
-```
+2. **Configure Environment**:
+   Copy `.env.sample` to `.env` and add your Groq API key:
+   ```env
+   GROQ_API_KEY=your-api-key-here
+   USE_GROQ_API=true
+   USE_API_LLM=true
+   ```
 
-### Configure
-```bash
-cp .env.sample .env
-```
-
-Edit `.env` and add your Groq API key:
-```
-GROQ_API_KEY=your-groq-key-here
-USE_LOCAL_STT=false
-USE_GROQ_API=true
-USE_API_LLM=true
-```
-
-### Run
-```bash
-streamlit run app.py
-```
-
-Open `http://localhost:8501`.
-
----
-
-## Hardware Workarounds
-
-### Why Groq API is default for STT
-
-The `faster-whisper` library requires Microsoft Visual C++ Build Tools to compile on Windows. On machines without it, installation fails. Running Whisper's `base` model on CPU also takes 10-20 minutes per audio clip, which is unusable for interactive use.
-
-Groq provides hosted Whisper (`whisper-large-v3-turbo`) via API. Transcription completes in 1-2 seconds with higher accuracy than local tiny/base models.
-
-To enable local STT when C++ build tools are available:
-```
-USE_LOCAL_STT=true
-```
-
-### Why Groq API is default for LLM
-
-Ollama requires downloading large models (4-7 GB). The llama3 download failed during development due to TLS timeouts. The locally installed qwen2.5:0.5b was too small for reliable structured JSON output.
-
-`llama-3.1-8b-instant` on Groq returns structured JSON in under 1 second.
-
-To use local Ollama:
-```
-USE_API_LLM=false
-LOCAL_LLM_MODEL=qwen3.5:latest
-```
+3. **Run**:
+   ```bash
+   streamlit run app.py
+   ```
 
 ---
 
@@ -144,32 +92,21 @@ LOCAL_LLM_MODEL=qwen3.5:latest
 
 ```
 voicefo/
-├── app.py                  # Streamlit UI and pipeline orchestration
+├── app.py                  # Streamlit UI & Pipeline Orchestration
 ├── utils/
-│   ├── stt.py              # Speech-to-Text (Groq or local faster-whisper)
-│   ├── llm.py              # LLM planner (Groq or local Ollama)
-│   └── tools.py            # Safe tool executor (sandboxed to /output/)
-├── output/                 # All generated files go here. Nothing else.
-├── .env.sample             # Environment variable template
-├── .gitignore              # Excludes .env, output/, __pycache__
-├── requirements.txt        # Python dependencies
-├── PROJECT_FLOW.txt        # Step-by-step system flow documentation
-└── LAUNCH_GUIDE.md         # Troubleshooting and manual launch guide
+│   ├── stt.py              # Speech-to-Text routing
+│   ├── llm.py              # Intent planning & reasoning
+│   └── tools.py            # Local tool execution
+├── docs/                   # Documentation, flows, and scripts
+├── output/                 # Sandboxed file output directory
+├── requirements.txt        # Project dependencies
+└── .env.sample             # Environment configuration template
 ```
 
 ---
 
-## Security Architecture
+## Safety & Security
 
-1. Path Traversal Prevention: `os.path.basename()` strips any `../../` attempts
-2. Prompt Injection Guard: system prompt contains a SECURITY DIRECTIVE telling the LLM to treat transcripts as data, not instructions
-3. Human Approval Gate: zero disk writes without explicit user click
-4. API Key Safety: `.env` is in `.gitignore`; keys are never hardcoded
-
----
-
-## Deliverables
-
-- [x] GitHub Repository
-- [ ] Video Demo - YouTube Unlisted (2-3 min)
-- [ ] Technical Article - Medium / Dev.to / Substack
+- **Path Sanitization**: Enrollment of `os.path.basename()` on all user-supplied filenames to prevent directory traversal attacks.
+- **Prompt Guard**: System-level directives to prevent prompt injection and unauthorized command execution.
+- **Validation Gate**: A mandatory manual approval step for all physical file system mutations.
